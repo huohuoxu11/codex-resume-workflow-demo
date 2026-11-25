@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>定向简历工作流 Demo</title>
+  <style>
+    :root{--ink:#172332;--muted:#64748b;--line:#dbe4ee;--paper:#fff;--soft:#f5f8fb;--navy:#12314a;--teal:#0e8f89;--teal2:#e4f6f3;--orange:#f47738;--red:#a83b3b;--shadow:0 18px 45px rgba(28,54,77,.12)}
+    *{box-sizing:border-box} body{margin:0;background:#eef3f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.55} button,textarea,select{font:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+    header{background:var(--navy);color:#fff;padding:54px 0 48px;position:relative;overflow:hidden}header:after{content:"";position:absolute;width:430px;height:430px;border:1px solid rgba(255,255,255,.15);border-radius:50%;right:-120px;top:-220px;box-shadow:0 0 0 55px rgba(255,255,255,.04),0 0 0 110px rgba(255,255,255,.025)}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#8de5dc;font-size:13px;letter-spacing:.12em;font-weight:700}.dot{width:8px;height:8px;border-radius:50%;background:#75e1d5;box-shadow:0 0 0 4px rgba(117,225,213,.16)}h1{font-size:42px;line-height:1.15;margin:14px 0 14px;letter-spacing:-1px}.lead{max-width:720px;margin:0;color:#c7d5df;font-size:17px}.header-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 10px;font-size:12px;color:#dce8ee}
+    main{padding:32px 0 54px}.notice{background:#fff8ef;border:1px solid #f6d5b6;color:#7c451b;border-radius:12px;padding:13px 16px;font-size:13px;margin-bottom:22px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px rgba(26,48,70,.05);overflow:hidden}.card-h{padding:18px 21px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.card-h h2{font-size:17px;margin:0}.index{color:var(--teal);font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em}.body{padding:20px 21px}.field{margin-bottom:16px}.field label{display:block;font-size:13px;font-weight:700;color:#405365;margin-bottom:7px}.field select,.field textarea{width:100%;border:1px solid #bdcbd8;background:#fbfdff;border-radius:10px;padding:10px 12px;color:var(--ink);outline:none}.field textarea{resize:vertical;min-height:150px;line-height:1.6}.field select:focus,.field textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,143,137,.12)}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.run{background:var(--teal);color:#fff;border:0;border-radius:9px;font-weight:700;padding:11px 16px;cursor:pointer}.run:hover{background:#087972}.ghost{background:#fff;color:#355166;border:1px solid #bdcbd8;border-radius:9px;padding:10px 13px;cursor:pointer;font-size:13px}.tiny{font-size:12px;color:var(--muted)}
+    .flow{display:grid;gap:10px}.step{border:1px solid var(--line);padding:12px 13px;border-radius:10px;display:grid;grid-template-columns:28px 1fr;gap:10px;transition:.25s}.step-n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#edf2f6;color:#718191;font:700 12px ui-monospace}.step b{font-size:14px}.step p{margin:2px 0 0;color:var(--muted);font-size:12px}.step.active{border-color:#91d8d2;background:#f0fbf9}.step.active .step-n{background:var(--teal);color:#fff}.step.done .step-n{background:#d9f2ed;color:#087972}.step.done .step-n:after{content:"✓"}.step.done .step-n{font-size:0}.step.done .step-n:after{font-size:14px}.audit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.audit-item{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#425466}.check{width:17px;height:17px;flex:none;border-radius:50%;display:grid;place-items:center;background:#ddf3ef;color:#087972;font-size:11px;font-weight:800}.warn{background:#fff1e5;color:#bb5d20}.result{margin-top:22px}.result-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:22px}.resume{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.resume-top{padding:23px 27px 18px;background:linear-gradient(135deg,#12314a,#1e5062);color:#fff}.resume-top h2{margin:0;font-size:26px}.resume-top p{margin:7px 0 0;color:#cfdee7;font-size:13px}.resume-sheet{padding:19px 27px 24px}.resume-sec{margin-top:15px}.resume-sec h3{margin:0 0 7px;color:#0e6d70;font-size:15px;display:flex;align-items:center;gap:8px}.resume-sec h3:after{content:"";height:1px;background:#bfdbda;flex:1}.resume-sec p,.resume-sec li{font-size:13px;margin:0;color:#344a5c}.resume-sec ul{margin:0;padding-left:18px}.resume-sec li{margin-bottom:4px}.resume-sec strong{color:#122d41}.side-stack{display:grid;gap:22px}.metric{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #edf1f5;font-size:13px}.metric:last-child{border:0}.metric b{color:var(--teal)}.quote{background:#12314a;color:#e2f3f1;border-radius:16px;padding:23px}.quote h3{margin:0 0 10px;font-size:16px}.quote p{margin:0;color:#bdd5d7;font-size:13px}.copy{margin-top:15px;background:#fff;color:#12314a;border:0;border-radius:8px;padding:9px 12px;cursor:pointer;font-weight:700;font-size:12px}.copy.ok{background:#95e5db}.footer{font-size:12px;color:#718191;margin:26px 0 0;text-align:center}
+    @media(max-width:850px){h1{font-size:33px}.grid,.result-grid{grid-template-columns:1fr}.wrap{padding:0 16px}.audit{grid-template-columns:1fr}.header-meta{gap:8px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span>CODEX WORKFLOW · INTERACTIVE DEMO</div>
+      <h1>定向简历生成工作流</h1>
+      <p class="lead">将岗位需求、个人经历与真实性约束放进同一条可检查的工作链路，输出可编辑、可打印的一页式定向简历与 BOSS 招呼语。</p>
+      <div class="header-meta"><span class="tag">JD 结构化</span><span class="tag">经历匹配</span><span class="tag">真实性审计</span><span class="tag">HTML 交付</span><span class="tag">本地演示版</span></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="notice">展示说明：此页面使用脱敏示例，不上传 JD 或个人信息，不调用外部模型接口。点击“运行工作流”后，页面会对输入文本执行<strong>本地关键词规则匹配</strong>并切换相应演示结果；它不是线上模型实时推理。真实投递内容仍需基于确认材料并经人工复核。</div>
+    <div class="grid">
+      <section class="card">
+        <div class="card-h"><h2>01 · 输入岗位信息</h2><span class="index">INPUT</span></div>
+        <div class="body">
+          <div class="field"><label for="preset">选择演示场景</label><select id="preset"><option value="ai">AI 产品/项目助理</option><option value="growth">海外产品运营</option><option value="ad">商业化广告策略运营</option></select></div>
+          <div class="field"><label for="jd">JD 摘要（可编辑）</label><textarea id="jd"></textarea></div>
+          <div class="actions"><button class="run" id="run">运行工作流</button><button class="ghost" id="reset">恢复示例</button><span class="tiny" id="state">等待输入</span></div>
+          <p class="tiny">演示运行范围：本地关键词分类、流程状态与预设脱敏结果切换。</p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="card-h"><h2>02 · 工作流状态</h2><span class="index">TRACEABLE</span></div>
+        <div class="body"><div class="flow" id="flow">
+          <div class="step"><span class="step-n">1</span><div><b>提取岗位任务与业务场景</b><p>区分真正要解决的问题与表面关键词。</p></div></div>
+          <div class="step"><span class="step-n">2</span><div><b>从经历库选择可证明的事实</b><p>重选经历、职责边界与可解释证据。</p></div></div>
+          <div class="step"><span class="step-n">3</span><div><b>按业务逻辑重组表达</b><p>问题 → 分析判断 → 支持动作/交付。</p></div></div>
+          <div class="step"><span class="step-n">4</span><div><b>执行真实性与版式审计</b><p>识别缺口、限制不实承诺、核验单页输出。</p></div></div>
+        </div></div>
+      </section>
+    </div>
+    <section class="result">
+      <div class="result-grid">
+        <article class="resume">
+          <div class="resume-top"><h2 id="r-title">AI 产品/项目助理 · 定向简历</h2><p id="r-sub">演示输出：以需求结构化、轻量原型与项目推进为主线</p></div>
+          <div class="resume-sheet">
+            <div class="resume-sec"><h3>核心匹配概览</h3><ul id="summary"></ul></div>
+            <div class="resume-sec"><h3>经历重构示例</h3><p id="experience"></p></div>
+            <div class="resume-sec"><h3>事实边界</h3><p id="boundary"></p></div>
+            <div class="resume-sec"><h3>岗位相关能力</h3><p id="skills"></p></div>
+          </div>
+        </article>
+        <aside class="side-stack">
+          <section class="card"><div class="card-h"><h2>03 · 质量审计</h2><span class="index">AUDIT</span></div><div class="body"><div class="audit" id="audit"></div></div></section>
+          <section class="quote"><h3>生成的 BOSS 招呼语</h3><p id="greeting"></p><button class="copy" id="copy">复制招呼语</button></section>
+          <section class="card"><div class="card-h"><h2>Demo 范围</h2><span class="index">SCOPE</span></div><div class="body"><div class="metric"><span>可交互步骤</span><b>4</b></div><div class="metric"><span>示例岗位方向</span><b>3</b></div><div class="metric"><span>脱敏示例数据</span><b>本地</b></div><div class="metric"><span>外部数据上传</span><b>无</b></div></div></section>
+        </aside>
+      </div>
+    </section>
+    <p class="footer">项目展示重点：工作流拆解、信息结构化、前端交付与质量控制。实际投递内容须基于用户确认的经历材料，并由本人复核。</p>
+  </main>
+  <script>
+    const scenarios={
+      ai:{jd:'岗位重点：参与 AI 产品/项目会议；将需求、决策、任务与风险整理为可推进事项；使用 AI Coding 工具制作轻量原型或 Demo；协同产品、研发、客户推进闭环。',title:'AI 产品/项目助理 · 定向简历',sub:'演示输出：以需求结构化、轻量原型与项目推进为主线',summary:['把业务沟通中的需求、问题与后续动作整理为可追踪的项目资料。','围绕重复整理和交付不统一的问题，完成可编辑 HTML 交付工作流。','以客户反馈、流程模板与 SOP 为证据，支持多方协同推进。'],experience:'围绕询价、资料分散与协作断点，梳理信息链路并沉淀页面模板、标准和 SOP；将零散业务反馈转为团队可继续处理的事项。',boundary:'不将个人 HTML 工作流写成生产级 Agent、正式 PRD、研发管理或已验证 PoC。',skills:'需求/信息结构化、流程与资料沉淀、轻量 HTML 交付、协同推进；技术概念按实际学习程度呈现。',greeting:'您好，我有将业务反馈和分散资料整理为可推进流程、模板与 SOP 的实践，也使用 Codex 完成可编辑 HTML 交付工作流。希望以真实项目支持能力切入，期待沟通。'},
+      growth:{jd:'岗位重点：面向海外客户，围绕获客、询盘、转化、内容与页面信息持续优化运营链路；协同客户、供应链和内部团队推进业务。',title:'海外产品运营 · 定向简历',sub:'演示输出：以获客—询盘—转化—履约业务链路为主线',summary:['从市场、竞品、平台信息与客户反馈中判断页面和运营动作。','围绕重复询价和资料不统一，沉淀可复用的业务模板与 SOP。','以客户沟通、英文业务资料和跨团队协同支撑转化承接。'],experience:'围绕客户理解商品和发起询盘的过程，整理关键词、页面信息与英文业务资料；针对信息断点建立标准化资料，支持后续沟通与履约协同。',boundary:'不将跨境店铺运营写成海外社媒、SEO、客户全生命周期或无法举证的增长结果。',skills:'海外市场/竞品信息、客户反馈、页面与资料标准化、英文业务沟通、流程协同。',greeting:'您好，我有跨境业务中围绕海外市场、客户反馈、询盘与转化链路优化商品信息和页面表达的经历，也沉淀了页面模板和 SOP，期待沟通。'},
+      ad:{jd:'岗位重点：面向商业化广告项目与渠道伙伴，基于项目表现、客户需求、行业和内容趋势支持策略研究、问题复盘与协同推进。',title:'商业化广告策略运营 · 定向简历',sub:'演示输出：以客户经营问题与策略研究支持为主线',summary:['把账户表现、客户问题和内容反馈整理为可讨论的经营问题。','从市场竞争、用户需求、内容场景与流量表现中建立策略依据。','以客户看数、阶段复盘与内容协同支持项目后续推进。'],experience:'围绕项目阶段目标，整理客户看数需求、执行进展与内容反馈；从用户需求、竞品表达和场景中提炼研究结论，支持团队对齐问题与后续动作。',boundary:'不将国内广告项目写成代理商经营策略、海外投放或个人商业化业绩。',skills:'客户需求响应、策略研究支持、阶段复盘、内容团队协同、资料表达。',greeting:'您好，我有商业化广告项目中的客户看数、阶段复盘和策略研究支持经历，能够将分散信息整理为可推进的问题与建议，期待沟通。'}
+    };
+    const audit=['岗位业务场景已识别','经历证据按相关性重选','表达以问题与判断为主','独立/协助边界已区分','核心匹配概览恰为 3 点','不写无法证明的结果','专业术语仅作事实依据','保留可追溯的缺口说明'];
+    const preset=document.querySelector('#preset'),jd=document.querySelector('#jd'),state=document.querySelector('#state'),flow=[...document.querySelectorAll('.step')];
+    function fill(k){const s=scenarios[k];jd.value=s.jd;document.querySelector('#r-title').textContent=s.title;document.querySelector('#r-sub').textContent=s.sub;document.querySelector('#summary').innerHTML=s.summary.map(x=>`<li>${x}</li>`).join('');document.querySelector('#experience').textContent=s.experience;document.querySelector('#boundary').textContent=s.boundary;document.querySelector('#skills').textContent=s.skills;document.querySelector('#greeting').textContent=s.greeting;document.querySelector('#audit').innerHTML=audit.map((x,i)=>`<div class="audit-item"><span class="check ${i===6?'warn':''}">${i===6?'!':'✓'}</span><span>${x}</span></div>`).join('');}
+    function classify(text){const v=text.toLowerCase();if(/广告|商业化|渠道|账户|投放|代理商/.test(v))return 'ad';if(/海外|跨境|询盘|客户|英文|转化|商品|店铺/.test(v))return 'growth';return 'ai'}
+    function run(){const k=classify(jd.value);fill(k);preset.value=k;flow.forEach(x=>x.className='step');state.textContent='正在进行本地规则匹配…';let i=0;const timer=setInterval(()=>{if(i>0)flow[i-1].classList.remove('active'),flow[i-1].classList.add('done');if(i<flow.length){flow[i].classList.add('active');i++}else{clearInterval(timer);state.textContent=`已完成 · 匹配到${document.querySelector('#r-title').textContent.split(' · ')[0]}演示模板`}},380)}
+    async function copyGreeting(button){const value=document.querySelector('#greeting').textContent;try{if(!navigator.clipboard||!window.isSecureContext)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(value);button.textContent='已复制';button.classList.add('ok');setTimeout(()=>{button.textContent='复制招呼语';button.classList.remove('ok')},1200)}catch{button.textContent='请手动复制'}}
+    preset.addEventListener('change',()=>{fill(preset.value);state.textContent='示例已切换'});document.querySelector('#reset').addEventListener('click',()=>{fill(preset.value);state.textContent='已恢复示例'});document.querySelector('#run').addEventListener('click',run);document.querySelector('#copy').addEventListener('click',e=>copyGreeting(e.target));fill('ai');
+  </script>
+</body>
+</html>
